@@ -9,16 +9,17 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type handle struct {
+type handleAuth struct {
 	sm *managers.ServiceManager
 }
 
-func NewAuthController(e *echo.Group, sm *managers.ServiceManager) *handle {
-	h := handle{sm: sm}
+func NewAuthController(e *echo.Group, sm *managers.ServiceManager) *handleAuth {
+	h := handleAuth{sm: sm}
+	e.POST("/signup", h.SignUp)
 	return &h
 }
 
-func (h *handle) SignUp(c echo.Context) error {
+func (h *handleAuth) SignUp(c echo.Context) error {
 	form := models.SignUpForm{}
 	if err := c.Bind(&form); err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, utils.Response(false, "unexpected entity", nil, err))
@@ -28,5 +29,5 @@ func (h *handle) SignUp(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, utils.Response(false, "fail to create an new account", nil, err))
 	}
 
-	return c.JSON(http.StatusOK, utils.Response(true, "", nil, nil))
+	return c.JSON(http.StatusCreated, utils.Response(true, "", nil, nil))
 }

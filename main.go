@@ -5,6 +5,7 @@ import (
 	"trade_simulator/controllers"
 	"trade_simulator/databases"
 	"trade_simulator/managers"
+	"trade_simulator/middlewares"
 	"trade_simulator/models"
 	"trade_simulator/services"
 
@@ -27,12 +28,17 @@ func init() {
 	AutoMigration()
 
 	DM = &managers.DatabaseManager{
-		Auth:         Auth,
-		UserDatabase: databases.NewUserDatabase(DB),
+		Auth:                Auth,
+		UserDatabase:        databases.NewUserDatabase(DB),
+		TransactionDatabase: databases.NewTransactionDatabase(DB),
+		AssetDatabase:       databases.NewAssetDatabase(DB),
 	}
 
 	SM = &managers.ServiceManager{
-		UserService: services.NewUserService(DM),
+		UserService:        services.NewUserService(DM),
+		TransactionService: services.NewTransactionService(DM),
+		AssetService:       services.NewAssetService(DM),
+		HistoricalService:  services.NewHistoricalService(DM),
 	}
 }
 
@@ -44,6 +50,10 @@ func main() {
 	auth := e.Group("/auth")
 	controllers.NewAuthController(auth, SM)
 
+	user := e.Group("/user")
+	user.Use(middlewares.AuthMiddleware(Auth))
+	controllers.NewUserController(user, SM)
+
 	e.Logger.Fatal(e.Start(":5000"))
 }
 
@@ -51,5 +61,7 @@ func AutoMigration() {
 	DB.AutoMigrate(
 		&models.User{},
 		&models.Transaction{},
+		&models.Asset{},
+		&models.Historical{},
 	)
 }

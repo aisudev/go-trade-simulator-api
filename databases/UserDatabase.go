@@ -20,9 +20,17 @@ func (instance *userDatabase) Create(user *models.User) error {
 
 func (instance *userDatabase) FilterOne(query string, args ...interface{}) (*models.User, error) {
 	var user models.User
-	if err := instance.db.Where(query, args).Find(&user).Error; err != nil {
+	if err := instance.db.Where(query, args).Preload("Transactions").Find(&user).Error; err != nil {
 		return nil, err
 	}
 
 	return &user, nil
+}
+
+func (instance *userDatabase) Update(user *models.User) error {
+	if err := instance.db.Model(&models.User{}).Where("id=?", user.ID).Updates(user).Error; err != nil {
+		return err
+	}
+
+	return nil
 }

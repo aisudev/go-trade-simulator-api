@@ -5,5 +5,8 @@ import (
 )
 
 type ServiceManager struct {
-	UserService models.UserService
+	UserService        models.UserService
+	TransactionService models.TransactionService
+	AssetService       models.AssetService
+	HistoricalService  models.HistoricalService
 }
