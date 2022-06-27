@@ -26,3 +26,12 @@ func (instance *assetDatabase) All() ([]models.Asset, error) {
 
 	return assets, nil
 }
+
+func (instance assetDatabase) FilterOne(query string, args ...interface{}) (*models.Asset, error) {
+	asset := models.Asset{}
+	if err := instance.db.Where(query, args).Preload("Historicals").Find(&asset).Error; err != nil {
+		return nil, err
+	}
+
+	return &asset, nil
+}

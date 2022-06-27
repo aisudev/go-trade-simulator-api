@@ -39,12 +39,7 @@ func (service *userService) Create(form *models.SignUpForm) error {
 }
 
 func (service *userService) OneByID(id string) (*models.User, error) {
-	user, err := service.dm.UserDatabase.FilterOne("id=?", id)
-	if err != nil {
-		return nil, err
-	}
-
-	return user, nil
+	return service.dm.UserDatabase.FilterOne("id=?", id)
 }
 
 func (service *userService) Withdraw(id string, amount float64) (*models.User, error) {

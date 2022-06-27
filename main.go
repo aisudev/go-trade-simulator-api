@@ -32,6 +32,7 @@ func init() {
 		UserDatabase:        databases.NewUserDatabase(DB),
 		TransactionDatabase: databases.NewTransactionDatabase(DB),
 		AssetDatabase:       databases.NewAssetDatabase(DB),
+		HistoricalDatabase:  databases.NewHistoricalDatabase(DB),
 	}
 
 	SM = &managers.ServiceManager{
@@ -53,6 +54,10 @@ func main() {
 	user := e.Group("/user")
 	user.Use(middlewares.AuthMiddleware(Auth))
 	controllers.NewUserController(user, SM)
+
+	asset := e.Group("/asset")
+	asset.Use(middlewares.AuthMiddleware(Auth))
+	controllers.NewAssetController(asset, SM)
 
 	e.Logger.Fatal(e.Start(":5000"))
 }

@@ -26,3 +26,7 @@ func (instance *historicalDatabase) All() ([]models.Historical, error) {
 
 	return historicals, nil
 }
+
+func (instance *historicalDatabase) BatchCreate(historicals []models.Historical) error {
+	return instance.db.CreateInBatches(&historicals, 100).Error
+}
