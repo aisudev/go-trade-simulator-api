@@ -15,6 +15,7 @@ type Transaction struct {
 
 type TransactionDatabase interface {
 	Create(*Transaction) error
+	FilterOne(string, string, ...interface{}) (*Transaction, error)
 }
 
 type TransactionService interface {
@@ -26,7 +27,7 @@ type TransactionService interface {
 			amount = (new_open_price * last_amount / old_open_price) + open_amount
 		@params: { historical_id, amount }
 	*/
-	Open(uint64, float64) (*Transaction, error)
+	Open(string, uint64, float64) (*Transaction, error)
 
 	/*
 		@method: Close
@@ -34,5 +35,10 @@ type TransactionService interface {
 		- amount = (new_close_price * last_amount / latest_transaction_price) - close_amount
 		@params: { historical_id, amount }
 	*/
-	Close(uint64, float64) (*Transaction, error)
+	Close(string, uint64, float64) (*Transaction, error)
+}
+
+type TransactionForm struct {
+	HistoricalID uint64  `json:"historical_id"`
+	Amount       float64 `json:"amount"`
 }

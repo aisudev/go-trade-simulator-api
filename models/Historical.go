@@ -14,6 +14,7 @@ type Historical struct {
 
 type HistoricalDatabase interface {
 	BatchCreate([]Historical) error
+	FilterOne(string, ...interface{}) (*Historical, error)
 }
 
 type HistoricalService interface {

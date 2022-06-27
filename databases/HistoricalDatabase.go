@@ -30,3 +30,12 @@ func (instance *historicalDatabase) All() ([]models.Historical, error) {
 func (instance *historicalDatabase) BatchCreate(historicals []models.Historical) error {
 	return instance.db.CreateInBatches(&historicals, 100).Error
 }
+
+func (instance *historicalDatabase) FilterOne(query string, args ...interface{}) (*models.Historical, error) {
+	historical := models.Historical{}
+	if err := instance.db.Where(query, args...).Find(&historical).Error; err != nil {
+		return nil, err
+	}
+
+	return &historical, nil
+}

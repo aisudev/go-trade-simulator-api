@@ -1,4 +1,4 @@
-package constantes
+package constants
 
 const (
 	WITHDRAW string = "WITHDRAW"

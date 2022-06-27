@@ -27,9 +27,15 @@ func (instance *assetDatabase) All() ([]models.Asset, error) {
 	return assets, nil
 }
 
-func (instance assetDatabase) FilterOne(query string, args ...interface{}) (*models.Asset, error) {
+func (instance assetDatabase) FilterOne(isPreload bool, query string, args ...interface{}) (*models.Asset, error) {
 	asset := models.Asset{}
-	if err := instance.db.Where(query, args).Preload("Historicals").Find(&asset).Error; err != nil {
+
+	exec := instance.db.Where(query, args...)
+	if isPreload {
+		exec = exec.Preload("Hitoricals")
+	}
+
+	if err := exec.Find(&asset).Error; err != nil {
 		return nil, err
 	}
 

@@ -3,7 +3,7 @@ package services
 import (
 	"context"
 	"errors"
-	constantes "trade_simulator/constants"
+	"trade_simulator/constants"
 	"trade_simulator/managers"
 	"trade_simulator/models"
 
@@ -59,7 +59,7 @@ func (service *userService) Withdraw(id string, amount float64) (*models.User, e
 
 	transaction := models.Transaction{
 		UserID: user.ID,
-		Status: constantes.WITHDRAW,
+		Status: constants.WITHDRAW,
 		Amount: amount,
 	}
 	if err := service.dm.TransactionDatabase.Create(&transaction); err != nil {
@@ -82,7 +82,7 @@ func (service *userService) Deposit(id string, amount float64) (*models.User, er
 
 	transaction := models.Transaction{
 		UserID: user.ID,
-		Status: constantes.DEPOSIT,
+		Status: constants.DEPOSIT,
 		Amount: amount,
 	}
 	if err := service.dm.TransactionDatabase.Create(&transaction); err != nil {

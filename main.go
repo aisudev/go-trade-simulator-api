@@ -59,6 +59,10 @@ func main() {
 	asset.Use(middlewares.AuthMiddleware(Auth))
 	controllers.NewAssetController(asset, SM)
 
+	transaction := e.Group("/tx")
+	transaction.Use(middlewares.AuthMiddleware(Auth))
+	controllers.NewTransactionController(transaction, SM)
+
 	e.Logger.Fatal(e.Start(":5000"))
 }
 

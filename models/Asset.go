@@ -13,7 +13,7 @@ type Asset struct {
 type AssetDatabase interface {
 	Create(*Asset) error
 	All() ([]Asset, error)
-	FilterOne(string, ...interface{}) (*Asset, error)
+	FilterOne(bool, string, ...interface{}) (*Asset, error)
 }
 
 type AssetService interface {

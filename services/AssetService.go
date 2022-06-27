@@ -47,9 +47,9 @@ func (service *assetService) All() ([]models.Asset, error) {
 }
 
 func (service *assetService) OneByID(id uint64) (*models.Asset, error) {
-	return service.dm.AssetDatabase.FilterOne("id=?", id)
+	return service.dm.AssetDatabase.FilterOne(true, "id=?", id)
 }
 
 func (service *assetService) OneByName(name string) (*models.Asset, error) {
-	return service.dm.AssetDatabase.FilterOne("name=?", name)
+	return service.dm.AssetDatabase.FilterOne(true, "name=?", name)
 }
