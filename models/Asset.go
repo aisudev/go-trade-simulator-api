@@ -24,6 +24,6 @@ type AssetService interface {
 }
 
 type AssetForm struct {
-	Name        string       `json:"name"`
-	Historicals []Historical `json:"historicals"`
+	Name        string           `json:"name"`
+	Historicals []HistoricalForm `json:"historicals"`
 }

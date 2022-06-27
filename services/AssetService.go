@@ -27,9 +27,17 @@ func (service *assetService) Create(form *models.AssetForm) error {
 
 	historicals := []models.Historical{}
 	for _, v := range form.Historicals {
-		v.AssetID = createdAsset.ID
-		v.At = time.Now()
-		historicals = append(historicals, v)
+		at := time.Unix(v.At, 0)
+		historical := models.Historical{
+			AssetID: createdAsset.ID,
+			High:    v.High,
+			Low:     v.Low,
+			Open:    v.Open,
+			Close:   v.Close,
+			At:      &at,
+		}
+
+		historicals = append(historicals, historical)
 	}
 	return service.dm.HistoricalDatabase.BatchCreate(historicals)
 }
