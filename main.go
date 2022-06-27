@@ -23,6 +23,7 @@ var (
 )
 
 func init() {
+	configs.ViperSetup()
 	DB = configs.DatabaseConnection()
 	Auth = configs.FirebaseAuthSetup()
 	AutoMigration()
