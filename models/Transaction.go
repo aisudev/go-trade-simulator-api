@@ -36,6 +36,7 @@ type TransactionService interface {
 		@params: { historical_id, amount }
 	*/
 	Close(string, uint64, float64) (*Transaction, error)
+	CloseAll(string, uint64) (*Transaction, error)
 }
 
 type TransactionForm struct {
